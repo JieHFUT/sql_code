@@ -15,36 +15,36 @@ import java.util.Scanner;
  */
 public class JDBCDelete {
     public static void main(String[] args) throws SQLException {
-        //  瀹炵幇鏁版嵁搴撶殑鍒犻櫎鎿嶄綔
+        //  实现数据库的删除操作
 
 
-        //1. 鏋勯�犳暟鎹簱
+        //1. 构造数据库
         DataSource dataSource = new MysqlDataSource();
         ((MysqlDataSource)dataSource).setUrl("jdbc:mysql://127.0.0.1:3306/db_test1?characterEncoding=utf8&useSSL=false");
         ((MysqlDataSource)dataSource).setUser("root");
         ((MysqlDataSource)dataSource).setPassword("959452");
 
-        //2. 鍜屾暟鎹簱寤虹珛杩炴帴
+        //2. 和数据库建立连接
         Connection connection = dataSource.getConnection();
 
-        //3. 鐢ㄦ埛杈撳叆瑕佷慨鏀圭殑id
+        //3. 用户输入要修改的id
         Scanner scanner = new Scanner(System.in);
-        System.out.println("璇疯緭鍏ヤ綘瑕佸垹闄ょ殑鍚屽鐨勫鍙凤細");
+        System.out.println("请输入你要删除的同学的学号：");
         int id = scanner.nextInt();
 
 
-        //4. sql 璇彞
+        //4. sql 语句
         String sql = "delete from student where id = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1,id);
         System.out.println(statement);
 
 
-        //5. 鎵цsql
+        //5. 执行sql
         int n = statement.executeUpdate();
         System.out.println("n = " + n);
 
-        //6. 閲婃斁璧勬簮
+        //6. 释放资源
         statement.close();
         connection.close();
     }

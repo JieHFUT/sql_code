@@ -17,49 +17,49 @@ import java.util.Scanner;
 public class JDBCSelect {
     public static void main(String[] args) throws SQLException {
 
-        // æŸ¥æ‰¾æ•°æ®åº“ä¸­çš„è®°å½•
-        // è¿™ä¸ªæŸ¥æ‰¾å’Œå‰é¢çš„æ“ä½œå°±ä¸æ˜¯å¾ˆä¸€æ · ------ å¤šäº†ä¸€ä¸ªéå†çš„è¿‡ç¨‹
+        // ²éÕÒÊı¾İ¿âÖĞµÄ¼ÇÂ¼
+        // Õâ¸ö²éÕÒºÍÇ°ÃæµÄ²Ù×÷¾Í²»ÊÇºÜÒ»Ñù ------ ¶àÁËÒ»¸ö±éÀúµÄ¹ı³Ì
 
 
-        //1. åˆ›å»ºæ•°æ®æº
+        //1. ´´½¨Êı¾İÔ´
         DataSource dataSource = new MysqlDataSource();
         ((MysqlDataSource)dataSource).setUrl("jdbc:mysql://127.0.0.1:3306/db_test1?characterEncoding=utf8&useSSL=false");
         ((MysqlDataSource)dataSource).setUser("root");
         ((MysqlDataSource)dataSource).setPassword("959452");
 
-        //2. å’Œæ•°æ®åº“å»ºç«‹è¿æ¥
+        //2. ºÍÊı¾İ¿â½¨Á¢Á¬½Ó
         Connection connection = dataSource.getConnection();
 
-        //3. ç”¨æˆ·è¾“å…¥è¦ä¿®æ”¹çš„id
+        //3. ÓÃ»§ÊäÈëÒªĞŞ¸ÄµÄid
 
 
-        //4. sql è¯­å¥
+        //4. sql Óï¾ä
         String sql = "select * from student";
         PreparedStatement statement = connection.prepareStatement(sql);
 
-        //5. æ‰§è¡Œsql
-        //   æ­¤å¤„è¦ä½¿ç”¨çš„æ˜¯ execuQuery
-        //   executeUpdate åªèƒ½è¿”å›ä¸€ä¸ªint
-        //   execuQuery è¿”å›çš„æ˜¯ä¸€ä¸ª ResultSet å¯¹è±¡ï¼Œå¯ä»¥æŠŠè¿™ä¸ªå¯¹è±¡è§†ä¸ºä¸€ä¸ªâ€ä¸´æ—¶è¡¨â€œ
+        //5. Ö´ĞĞsql
+        //   ´Ë´¦ÒªÊ¹ÓÃµÄÊÇ execuQuery
+        //   executeUpdate Ö»ÄÜ·µ»ØÒ»¸öint
+        //   execuQuery ·µ»ØµÄÊÇÒ»¸ö ResultSet ¶ÔÏó£¬¿ÉÒÔ°ÑÕâ¸ö¶ÔÏóÊÓÎªÒ»¸ö¡±ÁÙÊ±±í¡°
         ResultSet resultSet = statement.executeQuery();
 
 
-        //6. éå†è¿™ä¸ªä¸´æ—¶è¡¨ï¼Œæ‹¿åˆ°é‡Œé¢çš„æ•°æ®
-        //   resultSet ç®€å•çš„å½“æˆä¸€ä¸ªç±»ä¼¼äºâ€è¿­ä»£å™¨â€œè¿™æ ·çš„ä¸œè¥¿æ¥çœ‹å¾…
-        //   next å¦‚æœæ²¡æœ‰åˆ°è¾¾æœ«å°¾ï¼Œå°±è¿”å› falseï¼Œå¦åˆ™å°±è¿”å›true
+        //6. ±éÀúÕâ¸öÁÙÊ±±í£¬ÄÃµ½ÀïÃæµÄÊı¾İ
+        //   resultSet ¼òµ¥µÄµ±³ÉÒ»¸öÀàËÆÓÚ¡±µü´úÆ÷¡°ÕâÑùµÄ¶«Î÷À´¿´´ı
+        //   next Èç¹ûÃ»ÓĞµ½´ïÄ©Î²£¬¾Í·µ»Ø false£¬·ñÔò¾Í·µ»Øtrue
         while(resultSet.next()){
-            // åœ¨è¿™é‡Œå°±å¯ä»¥å–è¿™ä¸€è¡Œçš„æ•°æ®
-            // é€šè¿‡ ResultSet é‡Œé¢çš„getxxx æ–¹æ³•ï¼Œæ¥è·å–åˆ°è¿™é‡Œçš„æŒ‡å®šçš„åˆ—
+            // ÔÚÕâÀï¾Í¿ÉÒÔÈ¡ÕâÒ»ĞĞµÄÊı¾İ
+            // Í¨¹ı ResultSet ÀïÃæµÄgetxxx ·½·¨£¬À´»ñÈ¡µ½ÕâÀïµÄÖ¸¶¨µÄÁĞ
 
-            // å–id  idæ˜¯æ•´æ•°  å°±getInt
+            // È¡id  idÊÇÕûÊı  ¾ÍgetInt
             int id = resultSet.getInt("id");
-            // å–name  nameæ˜¯String  getString
+            // È¡name  nameÊÇString  getString
             String name = resultSet.getString("name");
-            System.out.println(id + "ï¼š" + name);
+            System.out.println(id + "£º" + name);
         }
 
 
-        //å…³é—­è¿æ¥ï¼Œé‡Šæ”¾èµ„æº
+        //¹Ø±ÕÁ¬½Ó£¬ÊÍ·Å×ÊÔ´
         resultSet.close();
         statement.close();
         connection.close();

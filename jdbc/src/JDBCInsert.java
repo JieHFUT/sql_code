@@ -16,45 +16,45 @@ import java.util.Scanner;
 public class JDBCInsert {
 
     public static void main (String[] args) throws SQLException {
-        //1. è¦æ“ä½œæ•°æ®åº“ï¼Œå°±è¦è¿æ¥ä¸Šæ•°æ®åº“ï¼Œä¹Ÿå°±è¦æè¿°æ¸…æ¥šæœåŠ¡å™¨æ‰€åœ¨çš„ä½ç½®
-        //   ä½¿ç”¨DataSource ç±»æ¥æè¿° MySQL æœåŠ¡å™¨çš„ä½ç½®
+        //1. Òª²Ù×÷Êı¾İ¿â£¬¾ÍÒªÁ¬½ÓÉÏÊı¾İ¿â£¬Ò²¾ÍÒªÃèÊöÇå³ş·şÎñÆ÷ËùÔÚµÄÎ»ÖÃ
+        //   Ê¹ÓÃDataSource ÀàÀ´ÃèÊö MySQL ·şÎñÆ÷µÄÎ»ÖÃ
         DataSource dataSource = new MysqlDataSource();
         ((MysqlDataSource)dataSource).setUrl("jdbc:mysql://127.0.0.1:3306/db_test1?characterEncoding=utf8&useSSL=false");
         ((MysqlDataSource)dataSource).setUser("root");
         ((MysqlDataSource)dataSource).setPassword("959452");
 
-        //2. æ¥ä¸‹æ¥å’Œæ•°æ®åº“æœåŠ¡å™¨å»ºç«‹è¿æ¥
+        //2. ½ÓÏÂÀ´ºÍÊı¾İ¿â·şÎñÆ÷½¨Á¢Á¬½Ó
         Connection connection = dataSource.getConnection();
         System.out.println(connection);//com.mysql.jdbc.JDBC4Connection@3eb07fd3
 
 
-        //3. æ¥ä¸‹æ¥å°±å¯ä»¥å†™sqlè¯­å¥äº†
-        //   ä¾‹å¦‚ä¸€ä¸ªæ’å…¥æ“ä½œ,ä¾‹å¦‚å‘studentè¡¨é‡Œé¢æ’å…¥ä¸€ä¸ªæ•°æ®
-        //   ç›´æ¥ç”¨String æ ¼å¼çš„SQL è¿˜ä¸è¡Œï¼Œè¿˜éœ€è¦æ­é…ä¸€ä¸ªç‰¹æ®Šçš„ç±»
+        //3. ½ÓÏÂÀ´¾Í¿ÉÒÔĞ´sqlÓï¾äÁË
+        //   ÀıÈçÒ»¸ö²åÈë²Ù×÷,ÀıÈçÏòstudent±íÀïÃæ²åÈëÒ»¸öÊı¾İ
+        //   Ö±½ÓÓÃString ¸ñÊ½µÄSQL »¹²»ĞĞ£¬»¹ĞèÒª´îÅäÒ»¸öÌØÊâµÄÀà
         Scanner scanner = new Scanner(System.in);
-        System.out.println("è¯·è¾“å…¥å­¦å·ï¼š");
+        System.out.println("ÇëÊäÈëÑ§ºÅ£º");
         int num = scanner.nextInt();
-        System.out.println("è¯·è¾“å…¥å§“åï¼š");
+        System.out.println("ÇëÊäÈëĞÕÃû£º");
         String name = scanner.next();
-        //è¿™æ˜¯ä¸€ç§ä¸ç§‘å­¦çš„å†™æ³•
+        //ÕâÊÇÒ»ÖÖ²»¿ÆÑ§µÄĞ´·¨
         //String sql = "insert into student values(" + num + ", '"+ name +"')";
 
-        //è¿™æ˜¯ä¸€ç§ç§‘å­¦çš„å†™æ³•
-        //ä½¿ç”¨ ï¼Ÿ ä½œä¸ºå ä½ç¬¦ï¼Œåç»­ä½¿ç”¨ statement å¯¹è±¡é’ˆå¯¹ ï¼Ÿ è¿›è¡Œæ›¿æ¢
+        //ÕâÊÇÒ»ÖÖ¿ÆÑ§µÄĞ´·¨
+        //Ê¹ÓÃ £¿ ×÷ÎªÕ¼Î»·û£¬ºóĞøÊ¹ÓÃ statement ¶ÔÏóÕë¶Ô £¿ ½øĞĞÌæ»»
         String sql = "insert into student values(?, ?)";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, num);
         statement.setString(2, name);
 
 
-        //4. æ‰§è¡ŒSQL è¯­å¥ insert, update, delete éƒ½æ˜¯é€šè¿‡ executeUpdate æ¥æ‰§è¡Œçš„
-        //   select åˆ™æ˜¯é€šè¿‡ executeQuery æ¥æ‰§è¡Œçš„ï¼›
-        //   executeQuery çš„è¿”å›å€¼æ˜¯ä¸€ä¸ª æ•´æ•° è¡¨ç¤ºè¿™ä¸ªè¡¨è¾¾å¼å½±å“äº†å‡ è¡Œ!
-        //   statement.executeUpdate();ä½¿ç”¨è¿™ä¸ªæ¥è¿›è¡Œæ“ä½œ
+        //4. Ö´ĞĞSQL Óï¾ä insert, update, delete ¶¼ÊÇÍ¨¹ı executeUpdate À´Ö´ĞĞµÄ
+        //   select ÔòÊÇÍ¨¹ı executeQuery À´Ö´ĞĞµÄ£»
+        //   executeQuery µÄ·µ»ØÖµÊÇÒ»¸ö ÕûÊı ±íÊ¾Õâ¸ö±í´ïÊ½Ó°ÏìÁË¼¸ĞĞ!
+        //   statement.executeUpdate();Ê¹ÓÃÕâ¸öÀ´½øĞĞ²Ù×÷
         int n = statement.executeUpdate();
         System.out.println("n = " + n);
 
-        //5. æ–­å¼€è¿æ¥ï¼Œé‡Šæ”¾èµ„æº ----- æ³¨æ„ååˆ›å»ºçš„å…ˆé‡Šæ”¾
+        //5. ¶Ï¿ªÁ¬½Ó£¬ÊÍ·Å×ÊÔ´ ----- ×¢Òâºó´´½¨µÄÏÈÊÍ·Å
         statement.close();
         connection.close();
     }

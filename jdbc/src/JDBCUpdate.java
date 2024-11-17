@@ -15,28 +15,28 @@ import java.util.Scanner;
  */
 public class JDBCUpdate {
     public static void main(String[] args) throws SQLException {
-        //  å®ç°æ•°æ®åº“çš„ä¿®æ”¹æ“ä½œï¼Œå’Œæ’å…¥éå¸¸ç›¸ä¼¼
+        //  ÊµÏÖÊı¾İ¿âµÄĞŞ¸Ä²Ù×÷£¬ºÍ²åÈë·Ç³£ÏàËÆ
 
 
-        //1. æ„é€ æ•°æ®åº“
+        //1. ¹¹ÔìÊı¾İ¿â
         DataSource dataSource = new MysqlDataSource();
         ((MysqlDataSource)dataSource).setUrl("jdbc:mysql://127.0.0.1:3306/db_test1?characterEncoding=utf8&useSSL=false");
         ((MysqlDataSource)dataSource).setUser("root");
         ((MysqlDataSource)dataSource).setPassword("959452");
 
-        //2. å’Œæ•°æ®åº“å»ºç«‹è¿æ¥
+        //2. ºÍÊı¾İ¿â½¨Á¢Á¬½Ó
         Connection connection = dataSource.getConnection();
 
-        //3. ç”¨æˆ·è¾“å…¥è¦ä¿®æ”¹çš„id
+        //3. ÓÃ»§ÊäÈëÒªĞŞ¸ÄµÄid
         Scanner scanner = new Scanner(System.in);
-        System.out.println("è¯·è¾“å…¥ä½ è¦ä¿®æ”¹çš„åŒå­¦çš„å­¦å·ï¼š");
+        System.out.println("ÇëÊäÈëÄãÒªĞŞ¸ÄµÄÍ¬Ñ§µÄÑ§ºÅ£º");
         int id = scanner.nextInt();
-        System.out.println("è¯·è¾“å…¥ä½ è¦å°†å…¶ä¿®æ”¹ä¸ºçš„åå­—ï¼š");
+        System.out.println("ÇëÊäÈëÄãÒª½«ÆäĞŞ¸ÄÎªµÄÃû×Ö£º");
         String name = scanner.next();
-        //nextè¯»åˆ°ç©ºç™½å¤„ --- ç©ºæ ¼ï¼Œç¿»é¡µç¬¦ï¼Œåˆ¶è¡¨ç¬¦ï¼Œæ¢è¡Œç¬¦ï¼Œå‚ç›´åˆ¶è¡¨ç¬¦........
-        //nextLineè¯»åˆ°æ¢è¡Œç¬¦
+        //next¶Áµ½¿Õ°×´¦ --- ¿Õ¸ñ£¬·­Ò³·û£¬ÖÆ±í·û£¬»»ĞĞ·û£¬´¹Ö±ÖÆ±í·û........
+        //nextLine¶Áµ½»»ĞĞ·û
 
-        //4. sql è¯­å¥
+        //4. sql Óï¾ä
         String sql = "update student set name = ? where id = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1,name);
@@ -44,11 +44,11 @@ public class JDBCUpdate {
         System.out.println(statement);
 
 
-        //5. æ‰§è¡Œsql
+        //5. Ö´ĞĞsql
         int n = statement.executeUpdate();
         System.out.println("n = " + n);
 
-        //6. é‡Šæ”¾èµ„æº
+        //6. ÊÍ·Å×ÊÔ´
         statement.close();
         connection.close();
 
